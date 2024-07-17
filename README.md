@@ -2,7 +2,7 @@
 
 Practice with SQL and SQLite specifically with your new favorite data set.
 
-## pokemon-pinball.db
+## pokemon-pinball
 
 ```sql
 .tables
