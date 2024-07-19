@@ -4,8 +4,8 @@ Practice with SQL and SQLite specifically with your new favorite data set.
 
 ## pokemon-pinball
 
-```sql
-.tables
+```bash
+sqlite3 pokemon-pinball.sqlite3
 ```
 
 ### pokemon
