@@ -59,3 +59,43 @@ sqlite3 pokemon-pinball.sqlite3
 | --------- | --------------- |
 | evolution | pokemon("name") |
 | base      | pokemon("name") |
+
+## knot-memory
+
+### knot
+
+| column   | type    | options                            |
+| -------- | ------- | ---------------------------------- |
+| id       | INTEGER | PRIMARY KEY                        |
+| name     | TEXT    | NOT NULL                           |
+| category | TEXT    | NOT NULL                           |
+| use      | TEXT    |                                    |
+| datetime | NUMERIC | NOT NULL DEFAULT CURRENT_TIMESTAMP |
+
+### Command line
+
+```bash
+sqlite3
+```
+
+```sql
+.read knot-memory.sql
+```
+
+```sql
+SELECT * FROM "knot";
+```
+
+```sql
+INSERT INTO
+  "knot"("name", "category")
+VALUES
+  ('Good luck knot', 'decorative');
+
+INSERT INTO
+  "knot"("name", "category", "use")
+VALUES
+  ('Water knot', 'bend', 'To join webbing for climbing');
+
+SELECT * FROM "knot";
+```
