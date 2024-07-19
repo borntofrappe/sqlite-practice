@@ -1,0 +1,9 @@
+{
+  "scripts": {
+    "start": "node knot-memory.js"
+  },
+  "type": "module",
+  "devDependencies": {
+    "better-sqlite3": "^11.1.2"
+  }
+}
