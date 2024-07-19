@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node knot-memory.js"
+    "start": "node app.js"
   },
   "type": "module",
   "devDependencies": {

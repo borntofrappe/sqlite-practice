@@ -5,7 +5,7 @@ const PORT = 1234;
 
 /** @typedef { import("./types.d.ts").Knot } Knot */
 
-// db setup
+// better-sqlite3 setup
 const db = new Database(":memory:");
 
 db.exec(`CREATE TABLE "knot"(
@@ -31,7 +31,7 @@ const insertMany = db.transaction((/** @type Knot[] */ knots) => {
 
 insertMany(knots);
 
-// app setup
+// express setup
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

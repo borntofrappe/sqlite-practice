@@ -79,7 +79,7 @@ sqlite3
 ```
 
 ```sql
-.read knot-memory.sql
+.read sqlite3-setup.sql
 ```
 
 ```sql
@@ -98,4 +98,10 @@ VALUES
   ('Water knot', 'bend', 'To join webbing for climbing');
 
 SELECT * FROM "knot";
+```
+
+### JS app
+
+```bash
+pnpm start
 ```
