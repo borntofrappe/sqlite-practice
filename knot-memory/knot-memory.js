@@ -1,5 +1,5 @@
 import Database from "better-sqlite3";
-import http from "http";
+import express from "express";
 import { knots } from "./data.js";
 const PORT = 1234;
 
@@ -32,48 +32,31 @@ const insertMany = db.transaction((/** @type Knot[] */ knots) => {
 insertMany(knots);
 
 // app setup
-const server = http.createServer((req, res) => {
-  const { url, method } = req;
-  if (url === "/") {
-    if (method === "GET") {
-      res.writeHead(200, {
-        "Content-type": "text/html",
-      });
-      res.write(markup());
-      res.end();
-    } else if (method === "POST") {
-      let data = [];
-      req
-        .on("data", (chunk) => {
-          data.push(chunk);
-        })
-        .on("end", () => {
-          const requestString = Buffer.concat(data).toString("utf-8");
-          const [, name, category, use] = requestString.match(
-            /name=(.+)&category=(.+)&use=(.+)?/i
-          );
-          const statement = db.prepare(`INSERT INTO
-            "knot"("name", "category", "use")
-          VALUES
-            (@name, @category, @use)`);
-          statement.run({ name, category, use });
+const app = express();
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-          res.writeHead(302, {
-            Location: "/",
-          });
-          res.end();
-        });
-    }
-  } else {
-    res.writeHead(404, {
-      "Content-type": "text/html",
-    });
-    res.write("<h1>Page not found</h1>");
-    res.end();
-  }
+app
+  .route("/")
+  .get((req, res) => {
+    res.send(markup());
+  })
+  .post((req, res) => {
+    const { name, category, use } = req.body;
+    const statement = db.prepare(`INSERT INTO
+      "knot"("name", "category", "use")
+    VALUES
+      (@name, @category, @use)`);
+    statement.run({ name, category, use });
+
+    res.redirect("/");
+  });
+
+app.all("*", (req, res) => {
+  res.status(404).send("<h1>Page not found</h1>");
 });
 
-server.listen(PORT, () => {
+app.listen(PORT, () => {
   console.log(`Listening on port ${PORT}`);
 });
 
@@ -117,7 +100,7 @@ const markup = () => {
       <button>Submit</button>
     </form>
 
-    <h2>Current knots</h2>
+    <h2>Current knots <span>(${items.length})</span></h2>
     <ul>
     ${[...items]
       .map(
